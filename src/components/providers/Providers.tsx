@@ -16,6 +16,7 @@ import {
 const Providers = ({ children }: { children: JSX.Element }) => {
   const [safeService, setSafeService] = useState(null);
   const [optimismSafeService, setOptimismSafeService] = useState(null);
+  const [baseSafeService, setBaseSafeService] = useState(null);
 
   const setStartValues = async () => {
     const provider = await getProvider();
@@ -37,6 +38,13 @@ const Providers = ({ children }: { children: JSX.Element }) => {
     setOptimismSafeService(
       new SafeApiKit({
         txServiceUrl: "https://safe-transaction-optimism.safe.global/", //"https://safe-transaction-polygon.safe.global/",
+        ethAdapter,
+      })
+    );
+
+    setBaseSafeService(
+      new SafeApiKit({
+        txServiceUrl: "https://safe-transaction-base.safe.global/", //"https://safe-transaction-polygon.safe.global/",
         ethAdapter,
       })
     );
