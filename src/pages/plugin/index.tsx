@@ -32,6 +32,7 @@ function Plugins() {
   const [safeTxs, setSafeTxs] = useState(null);
   const [showFlagged, setFilterFlagged] = useState<boolean>(true);
   const [plugins, setPlugins] = useState<string[]>([]);
+  const [safeService, setSafeService] = useState(null);
   const fetchData = useCallback(async () => {
     try {
       setPlugins([]);
@@ -48,7 +49,7 @@ function Plugins() {
 
   // const web3Provider = new ethers.providers.Web3Provider(window.ethereum); //"https://rpc.gnosis.gateway.fm";
   // const provider = new ethers.providers.Web3Provider(window.ethereum);
-  let safeService;
+  // let safeService;
 
   const setStartValues = async () => {
     const provider = await getProvider();
@@ -60,10 +61,12 @@ function Plugins() {
       signerOrProvider: provider, //safeOwner,
     });
 
-    safeService = new SafeApiKit({
-      txServiceUrl: "https://safe-transaction-goerli.safe.global/", //"https://safe-transaction-polygon.safe.global/",
-      ethAdapter,
-    });
+    setSafeService(
+      new SafeApiKit({
+        txServiceUrl: "https://safe-transaction-goerli.safe.global/", //"https://safe-transaction-polygon.safe.global/",
+        ethAdapter,
+      })
+    );
   };
 
   const initializeDapp = async () => {

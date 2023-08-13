@@ -3,9 +3,6 @@ import { Fragment, ReactNode, useState, useEffect } from "react";
 import { truncateAddress } from "../../utils";
 import { ethers, BigNumber } from "ethers";
 import { useAccount, WagmiProvider, useChainId, useNetwork } from "wagmi";
-import { config } from "../../config";
-import ERC20 from "../../contracts/ABI/ERC20.json";
-import Presale from "../../contracts/ABI/Presale.json";
 import { Web3Button, Web3NetworkSwitch } from "@web3modal/react";
 import { useRouter } from "next/router";
 const fetch = require("node-fetch");
@@ -134,12 +131,13 @@ function Safe() {
   const [safeDetails, setSafeDetails] = useState(null);
   const [enabledPlugins, setEnabledPlugins] = useState([]);
   const [tabValue, setTabValue] = useState(0);
+  const [safeService, setSafeService] = useState(null);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 
-  let safeService;
+  // let safeService;
 
   const setStartValues = async () => {
     const provider = await getProvider();
@@ -151,10 +149,12 @@ function Safe() {
       signerOrProvider: provider, //safeOwner,
     });
 
-    safeService = new SafeApiKit({
-      txServiceUrl: "https://safe-transaction-goerli.safe.global/", //"https://safe-transaction-polygon.safe.global/",
-      ethAdapter,
-    });
+    setSafeService(
+      new SafeApiKit({
+        txServiceUrl: "https://safe-transaction-goerli.safe.global/", //"https://safe-transaction-polygon.safe.global/",
+        ethAdapter,
+      })
+    );
   };
 
   const noRefCheck = async (e) => {
@@ -250,7 +250,7 @@ function Safe() {
       <div className="flex flex-row mx-auto w-full md:w-5/6 xl:w-2/3 justify-center my-12">
         <TextField
           id="outlined"
-          label="Safe tx hash or Safe address"
+          label="Safe multisig address"
           variant="outlined"
           onChange={(e) => noRefCheck(e)}
           value={safeTxHash}

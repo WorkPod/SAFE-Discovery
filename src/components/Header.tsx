@@ -44,6 +44,13 @@ function Header() {
             )} */}
 
             {/* Switch Theme mode button */}
+            <div className="flex flex-row gap-6 mr-8">
+              <div className="text-lg font-medium flex">
+                Multisig Transactions
+              </div>
+              <div className="text-lg font-medium flex">Safes</div>
+              <div className="text-lg font-medium flex">Plugins</div>
+            </div>
             <Tooltip title="Switch Theme mode">
               <IconButton
                 sx={{ marginLeft: 2 }}

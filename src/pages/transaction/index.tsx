@@ -3,9 +3,6 @@ import { Fragment, ReactNode, useState, useEffect } from "react";
 import { truncateAddress } from "../../utils";
 import { ethers, BigNumber } from "ethers";
 import { useAccount, WagmiProvider, useChainId, useNetwork } from "wagmi";
-import { config } from "../../config";
-import ERC20 from "../../contracts/ABI/ERC20.json";
-import Presale from "../../contracts/ABI/Presale.json";
 import { Web3Button, Web3NetworkSwitch } from "@web3modal/react";
 import { useRouter } from "next/router";
 const fetch = require("node-fetch");
@@ -35,8 +32,9 @@ function SafeTransaction() {
     "0x4e7bd6ca6ce5e5b8f5ac8ff43e4c01f74b207a5fd00f285391be3c6d1db96f9c"
   );
   const [safeTxs, setSafeTxs] = useState(null);
+  const [safeService, setSafeService] = useState(null);
 
-  let safeService;
+  // let safeService;
 
   const setStartValues = async () => {
     const provider = await getProvider();
@@ -48,10 +46,12 @@ function SafeTransaction() {
       signerOrProvider: provider, //safeOwner,
     });
 
-    safeService = new SafeApiKit({
-      txServiceUrl: "https://safe-transaction-goerli.safe.global/", //"https://safe-transaction-polygon.safe.global/",
-      ethAdapter,
-    });
+    setSafeService(
+      new SafeApiKit({
+        txServiceUrl: "https://safe-transaction-goerli.safe.global/", //"https://safe-transaction-polygon.safe.global/",
+        ethAdapter,
+      })
+    );
   };
 
   const noRefCheck = async (e) => {
@@ -84,7 +84,7 @@ function SafeTransaction() {
       <div className="flex flex-row mx-auto w-full justify-center mt-12">
         <TextField
           id="outlined"
-          label="Safe tx hash or Safe address"
+          label="Safe tx hash"
           variant="outlined"
           onChange={(e) => noRefCheck(e)}
           value={safeTxHash}

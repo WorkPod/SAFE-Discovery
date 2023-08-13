@@ -62,7 +62,7 @@ export const SafeInfo = ({ safe, plugins }) => {
             <div className="flex w-full items-center justify-between pt-2">
               <div className="h-16 flex gap-2 items-center justify-start mx-8 w-1/2">
                 <AccountBalanceWalletOutlinedIcon className="w-16 h-16" />
-                <div className="text-md font-semibold flex">Safe Address:</div>
+                <div className="text-md font-medium flex">Safe Address:</div>
               </div>
               <div className="w-full flex justify-end">
                 <EthHashInfo
@@ -76,7 +76,7 @@ export const SafeInfo = ({ safe, plugins }) => {
             <div className="flex w-full items-center justify-center pt-2">
               <div className="h-16 flex gap-2 items-center justify-start mx-8 w-1/2 ">
                 <AccountBalanceWalletOutlinedIcon className="w-16 h-16" />
-                <div className="text-md font-semibold flex ">Treshold:</div>
+                <div className="text-md font-medium flex ">Treshold:</div>
               </div>
 
               <div className="w-full flex justify-end pr-8">
@@ -87,7 +87,7 @@ export const SafeInfo = ({ safe, plugins }) => {
             <div className="flex w-full  items-center justify-center pb-4 pt-6">
               <div className="h-16 flex gap-2 items-center justify-start mx-8 w-1/2 ">
                 <AccountBalanceWalletOutlinedIcon className="w-16 h-16" />
-                <div className="text-md font-semibold flex ">Owners:</div>
+                <div className="text-md font-medium flex ">Owners:</div>
               </div>
               <div className="w-full flex flex-col gap-2  items-end">
                 {safe.owners.map((owner) => (
@@ -110,7 +110,7 @@ export const SafeInfo = ({ safe, plugins }) => {
             <div className="flex w-full items-center justify-center pt-2">
               <div className="h-16 flex gap-2 items-center justify-start mx-8 w-1/2 ">
                 <AccountBalanceWalletOutlinedIcon className="w-16 h-16" />
-                <div className="text-md font-semibold flex ">Guard</div>
+                <div className="text-md font-medium flex ">Guard</div>
               </div>
 
               <div className="w-full flex justify-end">
@@ -125,7 +125,7 @@ export const SafeInfo = ({ safe, plugins }) => {
             <div className="flex w-full  items-center justify-center pb-4 pt-6">
               <div className="h-16 flex gap-2 items-center justify-start mx-8 w-1/2 ">
                 <AccountBalanceWalletOutlinedIcon className="w-16 h-16" />
-                <div className="text-md font-semibold flex ">Modules:</div>
+                <div className="text-md font-medium flex ">Modules:</div>
               </div>
               <div className="w-full flex flex-col gap-2 items-end">
                 {safe.modules.map((module) => (
@@ -141,7 +141,7 @@ export const SafeInfo = ({ safe, plugins }) => {
             <div className="flex w-full  items-center justify-center pb-4 pt-6">
               <div className="h-16 flex gap-2 items-center justify-start mx-8 w-1/2 ">
                 <AccountBalanceWalletOutlinedIcon className="w-16 h-16" />
-                <div className="text-md font-semibold flex ">
+                <div className="text-md font-medium flex ">
                   Enabled Plugins:
                 </div>
               </div>
