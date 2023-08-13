@@ -6,6 +6,8 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import DarkThemeIcon from "@mui/icons-material/Brightness4";
 import LightThemeIcon from "@mui/icons-material/Brightness7";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 // import ChainLabel from 'src/components/chain-label/ChainLabel'
 import { useTheme } from "../store/themeContext";
@@ -13,6 +15,13 @@ import { useTheme } from "../store/themeContext";
 
 function Header() {
   const { switchThemeMode, isDarkTheme } = useTheme();
+
+  const router = useRouter();
+
+  const handleClick = (e: any, href) => {
+    e.preventDefault();
+    router.push(href);
+  };
 
   // const { chain } = useAccountAbstraction()
 
@@ -45,11 +54,23 @@ function Header() {
 
             {/* Switch Theme mode button */}
             <div className="flex flex-row gap-6 mr-8">
-              <div className="text-lg font-medium flex">
-                Multisig Transactions
-              </div>
-              <div className="text-lg font-medium flex">Safes</div>
-              <div className="text-lg font-medium flex">Plugins</div>
+              <Link href="/transaction">
+                <a onClick={(event) => handleClick(event, "/transaction")}>
+                  <div className="text-lg font-medium flex">
+                    Multisig Transactions
+                  </div>
+                </a>
+              </Link>
+              <Link href="/safe">
+                <a onClick={(event) => handleClick(event, "/safe")}>
+                  <div className="text-lg font-medium flex">Safes</div>
+                </a>
+              </Link>
+              <Link href="/plugin">
+                <a onClick={(event) => handleClick(event, "/plugin")}>
+                  <div className="text-lg font-medium flex">Plugins</div>
+                </a>
+              </Link>
             </div>
             <Tooltip title="Switch Theme mode">
               <IconButton
