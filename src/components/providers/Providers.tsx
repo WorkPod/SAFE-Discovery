@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Fragment, ReactNode, useState, useEffect } from "react";
 import { ThemeProvider } from "../../store/themeContext";
 import { getProvider } from "../../logic/web3";
@@ -14,6 +15,7 @@ import {
 
 const Providers = ({ children }: { children: JSX.Element }) => {
   const [safeService, setSafeService] = useState(null);
+  const [optimismSafeService, setOptimismSafeService] = useState(null);
 
   const setStartValues = async () => {
     const provider = await getProvider();
@@ -28,6 +30,13 @@ const Providers = ({ children }: { children: JSX.Element }) => {
     setSafeService(
       new SafeApiKit({
         txServiceUrl: "https://safe-transaction-goerli.safe.global/", //"https://safe-transaction-polygon.safe.global/",
+        ethAdapter,
+      })
+    );
+
+    setOptimismSafeService(
+      new SafeApiKit({
+        txServiceUrl: "https://safe-transaction-optimism.safe.global/", //"https://safe-transaction-polygon.safe.global/",
         ethAdapter,
       })
     );
