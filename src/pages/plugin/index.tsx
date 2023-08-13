@@ -118,7 +118,7 @@ function Plugins() {
   };
 
   return (
-    <div className="w-view h-screen font-octosquare font-family-octosquare">
+    <div className="w-full h-screen font-octosquare font-family-octosquare">
       <div className="flex flex-row mx-auto w-full sm:w-4/5 xl:w-1/3 justify-center my-12">
         <TextField
           id="outlined"

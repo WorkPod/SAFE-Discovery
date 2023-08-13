@@ -71,6 +71,20 @@ export const loadEnabledPlugins = async (): Promise<string[]> => {
   return paginatedPlugins.array;
 };
 
+export const enabledPluginsForAddress = async (
+  safe: string
+): Promise<string[]> => {
+  // if (!(await isConnectedToSafe())) throw Error("Not connected to a Safe");
+  const manager = await getManager();
+  // const safeInfo = await getSafeInfo();
+  const paginatedPlugins = await manager.getPluginsPaginated(
+    SENTINEL_MODULES,
+    10,
+    safe
+  );
+  return paginatedPlugins.array;
+};
+
 const buildEnablePlugin = async (
   plugin: string,
   requiresRootAccess: boolean

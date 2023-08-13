@@ -29,12 +29,23 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { getProvider } from "../../logic/web3";
+import {
+  loadPlugins,
+  loadEnabledPlugins,
+  enabledPluginsForAddress,
+} from "../../logic/plugins";
+import { getManager, getPlugin, getRegistry } from "../../logic/protocol";
+import { getSafeInfo, isConnectedToSafe, submitTxs } from "../../logic/safeapp";
+import { isModuleEnabled, buildEnableModule } from "../../logic/safe";
+import { SafeInfo } from "./SafeInfo";
 
-function SafeTransaction() {
+function Safe() {
   const [safeTxHash, setSafeTxHash] = useState(
-    "0x4e7bd6ca6ce5e5b8f5ac8ff43e4c01f74b207a5fd00f285391be3c6d1db96f9c"
+    "0x209F31B1B54363d955FDE8dA8aEB0751ACd496A8"
   );
   const [safeTxs, setSafeTxs] = useState(null);
+  const [safeDetails, setSafeDetails] = useState(null);
+  const [enabledPlugins, setEnabledPlugins] = useState(null);
 
   let safeService;
 
@@ -58,13 +69,26 @@ function SafeTransaction() {
     setSafeTxHash(e.target.value);
   };
 
-  const fetchSafeDetails = async (safeAddr) => {
-    const safeInfo: SafeInfoResponse = await safeService.getSafeInfo(safeAddr);
+  const fetchSafeDetails = async () => {
+    const safeInfo: SafeInfoResponse = await safeService.getSafeInfo(
+      safeTxHash
+    );
 
     const multisigTxs: SafeMultisigTransactionListResponse =
-      await safeService.getMultisigTransactions(safeAddr);
+      await safeService.getMultisigTransactions(safeTxHash);
 
-    console.log(safeInfo, " ", multisigTxs);
+    const serviceInfo: SafeServiceInfoResponse =
+      await safeService.getServiceInfo();
+
+    // const masterCopies: MasterCopyResponse =
+    //   await safeService.getServiceMasterCopiesInfo();
+
+    const temporaryEnabledPlugins = await enabledPluginsForAddress(safeTxHash);
+
+    console.log(safeInfo, " ", multisigTxs, " ", temporaryEnabledPlugins, " ");
+    setSafeDetails(safeInfo);
+    setSafeTxs(multisigTxs.results);
+    setEnabledPlugins(temporaryEnabledPlugins);
   };
 
   const fetchSafeTxDetails = async () => {
@@ -81,27 +105,58 @@ function SafeTransaction() {
 
   return (
     <div className="w-view h-screen font-octosquare font-family-octosquare">
-      <div className="flex flex-row mx-auto w-full justify-center mt-12">
+      <div className="flex flex-row mx-auto w-full md:w-5/6 xl:w-1/2 justify-center my-12">
         <TextField
           id="outlined"
           label="Safe tx hash or Safe address"
           variant="outlined"
           onChange={(e) => noRefCheck(e)}
           value={safeTxHash}
-          className="w-[358px]"
+          className="w-full"
         />
         <Button
-          onClick={fetchSafeTxDetails}
+          onClick={fetchSafeDetails}
           variant="outlined"
           startIcon={<SearchIcon />}
         >
           Search
         </Button>
       </div>
-      {/* <EthHashInfo address={"bingus"} showCopyButton shortAddress={false} /> */}
-      <h1 className="mx-auto">API Response Data</h1>
-      {safeTxs && (
-        <div className="w-1/2 mx-auto">
+
+      {safeDetails && (
+        <div className="w-full md:w-5/6 xl:w-1/2 mx-auto">
+          <SafeInfo safe={safeDetails} plugins={enabledPlugins} />
+
+          <TableContainer component={Paper} className="">
+            <Table
+              // maxWidth="lg"
+              sx={{ maxWidth: 650 }}
+              aria-label="simple table"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell>Field</TableCell>
+                  <TableCell>Value</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {Object.keys(safeDetails).map((row) => (
+                  <TableRow
+                    key={row}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row}:
+                    </TableCell>
+                    <TableCell align="left">
+                      {JSON.stringify(safeDetails[row])}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
           <TableContainer component={Paper} className="">
             <Table
               // maxWidth="lg"
@@ -137,4 +192,4 @@ function SafeTransaction() {
   );
 }
 
-export default SafeTransaction;
+export default Safe;

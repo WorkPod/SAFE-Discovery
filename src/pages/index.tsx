@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import SafeTransaction from "./transaction";
 import Plugins from "./plugin";
+import Safe from "./safe";
 
 function Home() {
   const router = useRouter();
@@ -11,9 +12,10 @@ function Home() {
   };
 
   return (
-    <div className="bg-[#0B0B0B] w-full h-full">
+    <div className="w-full h-full">
       {/* <SafeTransaction /> */}
-      <Plugins />
+      {/* <Plugins /> */}
+      <Safe />
     </div>
   );
 }
